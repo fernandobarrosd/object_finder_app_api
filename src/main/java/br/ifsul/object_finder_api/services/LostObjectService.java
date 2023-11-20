@@ -1,16 +1,15 @@
 package br.ifsul.object_finder_api.services;
 
-import br.ifsul.object_finder_api.dto.CreateLostObjectDTO;
+import br.ifsul.object_finder_api.dtos.CreateLostObjectDTO;
+import br.ifsul.object_finder_api.dtos.LostObjectDTO;
 import br.ifsul.object_finder_api.entities.Category;
 import br.ifsul.object_finder_api.entities.LostObject;
 import br.ifsul.object_finder_api.entities.User;
+import br.ifsul.object_finder_api.mappers.LostObjectMapper;
 import br.ifsul.object_finder_api.repositories.LostObjectRepository;
-import br.ifsul.object_finder_api.utils.NumberUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class LostObjectService {
@@ -23,39 +22,27 @@ public class LostObjectService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private LostObjectMapper lostObjectMapper;
 
-
-    public List<LostObject> findAll() {
-        return lostObjectRepository.findAll();
-    }
-
-    public LostObject findByID(Integer id) {
-        return lostObjectRepository.findById(id).orElseThrow(() ->
+    public LostObjectDTO findByID(Long id) {
+        LostObject lostObject = lostObjectRepository.findById(id)
+        .orElseThrow(() ->
                 new EntityNotFoundException("O objeto não foi encontrado"));
+        return new LostObjectDTO(id, lostObject.getName(),
+        lostObject.getDescription(), lostObject.getCategory().getName(),
+        lostObject.getLocale(), lostObject.getDataEncontrado(), lostObject.getDataCadastro(),
+        lostObject.getDevolvido());
     }
 
     public void save(CreateLostObjectDTO createLostObjectDTO) {
-        Category category = categoryService.findByName(createLostObjectDTO.getCategory());
+        Category category = categoryService.findCategoryByName(createLostObjectDTO.getCategory());
         User user = userService.findById(createLostObjectDTO.getUserID());
 
-        LostObject lostObject = new LostObject();
+        LostObject lostObject = lostObjectMapper.toEntity(createLostObjectDTO);
 
-        LocalDate localDate = LocalDate.now();
-        String day = NumberUtils.convertToTwoNumbers(localDate.getDayOfMonth());
-        String month = NumberUtils.convertToTwoNumbers(localDate.getMonth().getValue());
-        String year = String.valueOf(localDate.getYear());
-
-        String date = String.format("%s/%s/%s", day, month, year);
-
-        lostObject.setId(null);
-        lostObject.setName(createLostObjectDTO.getName());
-        lostObject.setDescription(createLostObjectDTO.getDescription());
         lostObject.setUser(user);
         lostObject.setCategory(category);
-        lostObject.setDevolvido("Não");
-        lostObject.setDataCadastro(date);
-        lostObject.setDataEncontrado(date);
-        lostObject.setLocale(createLostObjectDTO.getLocale());
 
         lostObjectRepository.save(lostObject);
     }

@@ -1,6 +1,5 @@
 package br.ifsul.object_finder_api.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +13,7 @@ public class LostObject {
     @Column(name = "codobj", columnDefinition = "INTEGER", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "nomeobj", nullable = false)
     private String name;
@@ -34,7 +33,6 @@ public class LostObject {
     @Column(name = "devolvido", nullable = false, length = 3)
     private String devolvido;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(
         nullable = false,
@@ -44,12 +42,11 @@ public class LostObject {
     )
     private Category category;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(
         nullable = false,
         name = "usuarios_coduser",
-        columnDefinition = "INTEGER",
+        columnDefinition = "int(10) unsigned",
         referencedColumnName = "coduser"
     )
     private User user;

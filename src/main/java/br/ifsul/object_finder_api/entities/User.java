@@ -10,10 +10,10 @@ import java.util.List;
 @Table(name = "usuarios")
 @Entity
 public class User {
-    @Column(name = "coduser", columnDefinition = "INTEGER")
+    @Column(name = "coduser", columnDefinition = "int(10) unsigned")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "nome", nullable = false, unique = true)
     private String name;
