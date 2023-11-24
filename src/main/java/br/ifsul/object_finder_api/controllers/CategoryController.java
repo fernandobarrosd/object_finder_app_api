@@ -5,7 +5,8 @@ import br.ifsul.object_finder_api.projections.CategoryNameProjection;
 import br.ifsul.object_finder_api.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.Collection;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
@@ -16,13 +17,12 @@ public class CategoryController {
 
     @GetMapping("/{name}")
     public Category findCategoryByName(@PathVariable String name) {
-        System.out.println(name);
         return categoryService.findCategoryByName(name);
     }
 
 
     @GetMapping
-    public @ResponseBody Collection<CategoryNameProjection> findAllCategoryNames() {
+    public @ResponseBody List<CategoryNameProjection> findAllCategoryNames() {
         return categoryService.findAllCategoryNames();
     }
 }

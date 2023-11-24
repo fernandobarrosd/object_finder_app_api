@@ -7,3 +7,18 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      format-sql: true
+
+
+
+server:
+  ssl:
+    key-store-type: pkcs12
+    key-store: classpath:api.p12
+    key-store-password: password
+    key-alias: api
+    enabled: true
+    trust-store: classpath:api.p12
+    trust-store-password: password
+    trust-store-type: pkcs12
