@@ -23,7 +23,7 @@ public class LostObjectMapper {
         lostObject.setDescription(createLostObjectDTO.getDescription());
         lostObject.setDevolvido("Não");
         lostObject.setDataCadastro(date);
-        lostObject.setDataEncontrado(date);
+        lostObject.setDataEncontrado(createLostObjectDTO.getFoundedDate());
         lostObject.setLocale(createLostObjectDTO.getLocale());
 
         return lostObject;

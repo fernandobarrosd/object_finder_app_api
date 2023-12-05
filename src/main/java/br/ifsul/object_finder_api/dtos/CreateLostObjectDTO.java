@@ -24,4 +24,8 @@ public class CreateLostObjectDTO {
 
     @NotNull(message = "O id do usuário é obrigatório")
     private final Long userID;
+    
+    @NotNull(message = "A data encontrado é obrigatória")
+    private final String foundedDate;
+
 }

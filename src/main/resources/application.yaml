@@ -14,11 +14,9 @@ spring:
 
 server:
   ssl:
-    key-store-type: pkcs12
-    key-store: classpath:api.p12
+    key-store-type: jks
+    key-store: classpath:object-finder-app-api-https.jks
     key-store-password: password
-    key-alias: api
+    key-alias: object-finder-app-api-https
     enabled: true
-    trust-store: classpath:api.p12
-    trust-store-password: password
-    trust-store-type: pkcs12
+  port: 8080

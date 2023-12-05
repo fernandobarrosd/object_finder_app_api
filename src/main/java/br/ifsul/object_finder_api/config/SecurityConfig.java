@@ -32,8 +32,8 @@ public class SecurityConfig {
         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         .requiresChannel(channel -> channel
         .anyRequest().requiresSecure())
-        .authorizeHttpRequests(authorize -> 
-        authorize.anyRequest().permitAll())
+        .authorizeHttpRequests(authorize -> authorize
+        .anyRequest().permitAll())
         .build();
     }
 
